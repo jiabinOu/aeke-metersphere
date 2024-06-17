@@ -1,5 +1,8 @@
 package io.metersphere.api.service;
 
+import com.alibaba.fastjson.JSON;
+import io.metersphere.api.dto.ApiScenarioReportDTO;
+import io.metersphere.api.dto.StepTreeDTO;
 import io.metersphere.api.dto.automation.ApiTestReportVariable;
 import io.metersphere.base.domain.*;
 import io.metersphere.base.mapper.*;
@@ -37,6 +40,8 @@ public class TestResultService {
     private ApiDefinitionExecResultService apiDefinitionExecResultService;
     @Resource
     private ApiScenarioReportService apiScenarioReportService;
+    @Resource
+    private ApiScenarioReportStructureService apiScenarioReportStructureService;
     @Resource
     private ApiAutomationService apiAutomationService;
     @Resource
@@ -345,8 +350,59 @@ public class TestResultService {
 
         String subject = "";
         String event = "";
-        String successContext = "${operator}执行接口自动化成功: ${name}" + ", 报告: ${reportUrl}";
-        String failedContext = "${operator}执行接口自动化失败: ${name}" + ", 报告: ${reportUrl}";
+        ApiScenarioReportDTO dto = apiScenarioReportStructureService.assembleReport(report.getId(), false);
+        String content = JSON.toJSONString(dto);
+
+        long totalStr = dto.getTotal();
+        long errorStr = dto.getError();
+        long total = Long.parseLong(String.valueOf(totalStr));
+        long error = Long.parseLong(String.valueOf(errorStr));
+        List<StepTreeDTO> steps = dto.getSteps();
+
+        // 计算通过率
+        double passRate = ((double)(total - error) / total) * 100;
+
+        // 格式化为保留两位小数的字符串
+        String passRateStr = String.format("%.2f", passRate);
+
+        // 输出结果
+
+        String runPerson = "执行人：${operator}\n";
+        String projectType = "任务类型：接口自动化测试\n";
+        String projectName = "项目环境：${name}\n";
+        String runCaseNum = "运行接口总数量：" + totalStr + "\n";
+        String failNum = "运行失败接口数量：" + errorStr + "\n";
+        String passNum = "接口成功率：" + passRateStr + "%\n";
+        List<String> failedSteps = new ArrayList<>();
+        for (StepTreeDTO step : steps) {
+            if ("fail".equalsIgnoreCase(step.getTotalStatus())) {
+                List<StepTreeDTO> children = step.getChildren();
+                if (children != null) {
+                    for (StepTreeDTO child : children) {
+                        if ("fail".equalsIgnoreCase(child.getTotalStatus())) {
+                            List<StepTreeDTO> subChildren = child.getChildren();
+                            if (subChildren != null) {
+                                for (StepTreeDTO subChild : subChildren) {
+                                    if ("fail".equalsIgnoreCase(subChild.getTotalStatus())) {
+                                        String errorCaseName = " - " + child.getLabel() + "-" + subChild.getLabel() + "\n";
+                                        failedSteps.add(errorCaseName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 将失败步骤列表转换成字符串
+        String failedStepsStr = String.join("", failedSteps);
+        String failDetails = "失败接口名称：\n" + failedStepsStr + "\n";
+        String reportDir = "详细报告：" + reportUrl;
+
+//        String successContext = "${operator}执行接口自动化成功: ${name}\n" + content + "\n报告: ${reportUrl}";
+        String successContext = runPerson + projectType + projectName + runCaseNum + passNum + failNum + reportDir;
+        String failedContext = runPerson + projectType + projectName + runCaseNum + passNum + failNum + failDetails + reportDir;
 
         if (StringUtils.equals(ReportTriggerMode.API.name(), report.getTriggerMode())) {
             subject = "Jenkins任务通知";
