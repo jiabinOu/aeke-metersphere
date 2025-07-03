@@ -514,8 +514,8 @@ export default {
 }
 
 .head {
-  border-bottom: 1px solid #7C3985;
-  color: #7C3985;
+  border-bottom: 1px solid #06dc9c;
+  color: #06dc9c;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
   font-size: 13px;
   cursor: pointer;

@@ -4,12 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
-import io.metersphere.api.dto.APIReportBatchRequest;
-import io.metersphere.api.dto.ApiScenarioReportDTO;
-import io.metersphere.api.dto.DeleteAPIReportRequest;
-import io.metersphere.api.dto.EnvironmentType;
-import io.metersphere.api.dto.QueryAPIReportRequest;
-import io.metersphere.api.dto.RunModeDataDTO;
+import io.metersphere.api.dto.*;
 import io.metersphere.api.dto.automation.APIScenarioReportResult;
 import io.metersphere.api.dto.automation.ExecuteType;
 import io.metersphere.api.dto.automation.ScenarioStatus;
@@ -607,13 +602,7 @@ public class ApiScenarioReportService {
 
         String event;
         String status;
-        if (StringUtils.equals(scenario.getLastResult(), ScenarioStatus.Success.name())) {
-            event = NoticeConstants.Event.EXECUTE_SUCCESSFUL;
-            status = "成功";
-        } else {
-            event = NoticeConstants.Event.EXECUTE_FAILED;
-            status = "失败";
-        }
+        String context;
         String userId = result.getCreateUser();
         UserDTO userDTO = userService.getUserDTO(userId);
         SystemParameterService systemParameterService = CommonBeanFactory.getBean(SystemParameterService.class);
@@ -624,8 +613,65 @@ public class ApiScenarioReportService {
         paramMap.put("environment", getEnvironment(scenario));
         BaseSystemConfigDTO baseSystemConfigDTO = systemParameterService.getBaseInfo();
         String reportUrl = baseSystemConfigDTO.getUrl() + "/#/api/automation/report/view/" + result.getId();
+
+        ApiScenarioReportDTO apiScenarioReportDTO = apiScenarioReportStructureService.assembleReport(result.getId(), false);
+
+        long totalStr = apiScenarioReportDTO.getTotal();
+        long errorStr = apiScenarioReportDTO.getError();
+        long total = Long.parseLong(String.valueOf(totalStr));
+        long error = Long.parseLong(String.valueOf(errorStr));
+        List<StepTreeDTO> steps = apiScenarioReportDTO.getSteps();
+
+        // 计算通过率
+        double passRate = ((double)(total - error) / total) * 100;
+
+        // 格式化为保留两位小数的字符串
+        String passRateStr = String.format("%.2f", passRate);
+
+        // 输出结果
+
+        String projectType = "触发类型：Jenkins被动触发\n";
+        String projectName = "项目环境：${name}\n";
+        String runCaseNum = "测试接口总数量：" + totalStr + "\n";
+        String failNum = "失败接口数量：" + errorStr + "\n";
+        String passNum = "接口成功率：" + passRateStr + "%\n";
+        List<String> failedSteps = new ArrayList<>();
+        for (StepTreeDTO step : steps) {
+            if ("fail".equalsIgnoreCase(step.getTotalStatus())) {
+                List<StepTreeDTO> children = step.getChildren();
+                if (children != null) {
+                    for (StepTreeDTO child : children) {
+                        if ("fail".equalsIgnoreCase(child.getTotalStatus())) {
+                            List<StepTreeDTO> subChildren = child.getChildren();
+                            if (subChildren != null) {
+                                for (StepTreeDTO subChild : subChildren) {
+                                    if ("fail".equalsIgnoreCase(subChild.getTotalStatus())) {
+                                        String errorCaseName = " - " + child.getLabel() + "-" + subChild.getLabel() + "\n";
+                                        failedSteps.add(errorCaseName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 将失败步骤列表转换成字符串
+        String failedStepsStr = String.join("", failedSteps);
+        String failDetails = "失败接口名称：\n" + failedStepsStr + "\n";
+        String reportDir = "详细报告：" + reportUrl;
+
         paramMap.put("reportUrl", reportUrl);
-        String context = "${operator}执行接口自动化" + status + ": ${name}";
+        if (StringUtils.equals(scenario.getLastResult(), ScenarioStatus.Success.name())) {
+            event = NoticeConstants.Event.EXECUTE_SUCCESSFUL;
+            status = "测试结果：✅通过\n";
+            context = projectType + projectName + runCaseNum + failNum + passNum + status + reportDir;
+        } else {
+            event = NoticeConstants.Event.EXECUTE_FAILED;
+            status = "测试结果：❌不通过\n";
+            context = projectType + projectName + runCaseNum + failNum + passNum + status + failDetails + reportDir;
+        }
         NoticeModel noticeModel = NoticeModel.builder()
                 .operator(userId)
                 .context(context)

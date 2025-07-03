@@ -194,11 +194,11 @@ export const JMETER_FUNC = [
   {type: "String", name: "${__TestPlanName}", description: "Return name of current test plan"},
 ]
 
-export const ORIGIN_COLOR = '#2c2a48';
-export const ORIGIN_COLOR_SHALLOW = '#595591';
-export const COUNT_NUMBER = '#6C317C';
-export const COUNT_NUMBER_SHALLOW = '#CDB9D2';
-export const PRIMARY_COLOR = '#783887';
+export const ORIGIN_COLOR = '#303133';
+export const ORIGIN_COLOR_SHALLOW = '#06dc9c';
+export const COUNT_NUMBER = '#0b1e02';
+export const COUNT_NUMBER_SHALLOW = '#06dc9c';
+export const PRIMARY_COLOR = '#06dc9c';
 
 export const CONFIG_TYPE = {
   NOT: "NOT",

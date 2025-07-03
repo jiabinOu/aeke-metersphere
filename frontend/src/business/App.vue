@@ -14,7 +14,7 @@
     </el-row>
     <el-row id="header-top" type="flex" justify="space-between" align="middle" v-if="isMenuShow">
       <el-col :span="12">
-        <img :src="'/display/file/logo'" class="logo" alt="">
+        <img src="../assets/logo-AEKE.png" class="logo" alt="">
         <ms-top-menus :color="color"/>
       </el-col>
 
@@ -213,13 +213,13 @@ export default {
 }
 
 .logo {
-  width: 156px;
+  width: 115px;
   margin-bottom: 0;
   border: 0;
   margin-right: 20px;
   display: inline-block;
   line-height: 37px;
-  background-size: 156px 30px;
+  background-size: 156px 37px;
   box-sizing: border-box;
   height: 37px;
   background-repeat: no-repeat;

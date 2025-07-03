@@ -576,11 +576,11 @@ export default {
 }
 
 .ms-tree >>> .el-tree-node__expand-icon {
-  color: #7C3985;
+  color: #06dc9c;
 }
 
 .ms-tree >>> .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
-  color: #7C3985;
+  color: #06dc9c;
   content: "\e722";
   font-size: 20px;
 }

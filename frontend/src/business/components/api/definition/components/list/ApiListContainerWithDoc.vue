@@ -73,7 +73,7 @@ export default {
 <style scoped>
 
 .active {
-  border: solid 1px #6d317c;
+  border: solid 1px #06dc9c;
   background-color: var(--color);
   color: #FFFFFF;
 }

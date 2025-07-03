@@ -35,7 +35,7 @@
         </el-tooltip>
 
         <span class="count-title" v-if="isDisplay !== 'relevance'">
-          <span style="color: #6C317C">{{ data.caseNum }}</span>
+          <span style="color: #06dc9c">{{ data.caseNum }}</span>
         </span>
         <span v-if="!disabled" class="node-operate child">
           <el-tooltip

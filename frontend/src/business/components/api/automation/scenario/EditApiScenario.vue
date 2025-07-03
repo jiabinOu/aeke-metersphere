@@ -140,12 +140,12 @@
 
             <el-tooltip :content="$t('commons.follow')" placement="bottom" effect="dark" v-show="!showFollow">
               <i class="el-icon-star-off"
-                 style="color: #783987; font-size: 22px; margin-right: 5px;cursor: pointer;position: relative; top: 3px; "
+                 style="color: #06dc9c; font-size: 22px; margin-right: 5px;cursor: pointer;position: relative; top: 3px; "
                  @click="saveFollow"/>
             </el-tooltip>
             <el-tooltip :content="$t('commons.cancel')" placement="bottom" effect="dark" v-show="showFollow">
               <i class="el-icon-star-on"
-                 style="color: #783987; font-size: 22px; margin-right: 5px;cursor: pointer;position: relative; top: 3px; "
+                 style="color: #06dc9c; font-size: 22px; margin-right: 5px;cursor: pointer;position: relative; top: 3px; "
                  @click="saveFollow"/>
             </el-tooltip>
             <el-link type="primary" style="margin-right: 5px" @click="openHis"
@@ -2367,11 +2367,11 @@ export default {
 }
 
 .ms-tree >>> .el-tree-node__expand-icon {
-  color: #7C3985;
+  color: #06dc9c;
 }
 
 .ms-tree >>> .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
-  color: #7C3985;
+  color: #06dc9c;
   /* content: "\e722";*/
   padding: 0;
   content: "";
@@ -2413,7 +2413,7 @@ export default {
 }
 
 .custom-node_e {
-  color: #7C3985;
+  color: #06dc9c;
   font-size: 20px;
 }
 

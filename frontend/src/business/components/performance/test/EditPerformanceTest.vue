@@ -17,12 +17,12 @@
           <el-col :span="12">
             <el-tooltip :content="$t('commons.follow')" placement="bottom" effect="dark" v-if="!showFollow">
               <i class="el-icon-star-off"
-                 style="color: #783987; font-size: 25px; margin-right: 15px;cursor: pointer;position: relative; top: 5px; "
+                 style="color: #06dc9c; font-size: 25px; margin-right: 15px;cursor: pointer;position: relative; top: 5px; "
                  @click="saveFollow"/>
             </el-tooltip>
             <el-tooltip :content="$t('commons.cancel')" placement="bottom" effect="dark" v-if="showFollow">
               <i class="el-icon-star-on"
-                 style="color: #783987; font-size: 28px;  margin-right: 15px;cursor: pointer;position: relative; top: 5px; "
+                 style="color: #06dc9c; font-size: 28px;  margin-right: 15px;cursor: pointer;position: relative; top: 5px; "
                  @click="saveFollow"/>
             </el-tooltip>
 

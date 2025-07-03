@@ -254,10 +254,18 @@
     </logger>
 
     <logger name="io.metersphere" additivity="false">
-        <level value="${logger.level:INFO}"/>
+        <level value="${logger.level:DEBUG}"/>
         <appender-ref ref="infoAsyncAppender"/>
         <appender-ref ref="warnAsyncAppender"/>
         <appender-ref ref="errorAsyncAppender"/>
+    </logger>
+
+    <logger name="org.springframework.kafka" level="INFO">
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="org.apache.kafka.clients" level="INFO">
+        <appender-ref ref="console"/>
     </logger>
 
     <logger name="io.metersphere.base.mapper" level="${logger.sql.level}">
@@ -267,7 +275,7 @@
     <!--		<appender-ref ref="console"/>-->
     <!--	</logger>-->
 
-    <logger name="io.metersphere.Application" additivity="false" level="${logger.level:INFO}">
+    <logger name="io.metersphere.Application" additivity="false" level="${logger.level:DEBUG}">
         <appender-ref ref="infoAsyncAppender"/>
     </logger>
 

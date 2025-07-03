@@ -53,8 +53,8 @@ export default {
 <style scoped>
 
 .active {
-  border: solid 1px #6d317c;
-  background-color: #7C3985;
+  border: solid 1px #06dc9c;
+  background-color: #06dc9c;
   color: #FFFFFF;
 }
 

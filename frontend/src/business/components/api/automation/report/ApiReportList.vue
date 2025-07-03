@@ -443,7 +443,7 @@ export default {
   width: 100%;
 }
 .active {
-  border: solid 1px #6d317c!important;
+  border: solid 1px #06dc9c!important;
   background-color: var(--primary_color)!important;
   color: #FFFFFF!important;
 }

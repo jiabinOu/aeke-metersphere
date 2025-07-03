@@ -613,7 +613,7 @@ export default {
 }
 
 /deep/ .el-step__title.is-process .el-link.el-link--default.is-underline {
-  color: #783887;
+  color: #06dc9c;
 }
 
 /deep/ .el-link--inner {

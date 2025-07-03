@@ -3,7 +3,7 @@
     <span class="count-number" :class="{'big_count-number': content < 10000}">
       {{content}}
     </span>
-    <span style="color: #6C317C;">
+    <span style="color: #06dc9c;">
       {{$t('api_test.home_page.unit_of_measurement')}}
     </span>
   </div>

@@ -95,7 +95,7 @@ public class ApiScenarioExecuteService {
 
     public List<MsExecResponseDTO> run(RunScenarioRequest request) {
         if (LoggerUtil.getLogger().isDebugEnabled()) {
-            LoggerUtil.debug("Scenario run-执行脚本装载-接收到场景执行参数：【 " + JSON.toJSONString(request) + " 】");
+            LoggerUtil.info("Scenario run-执行脚本装载-接收到场景执行参数：【 " + JSON.toJSONString(request) + " 】");
         }
         if (StringUtils.isEmpty(request.getTriggerMode())) {
             request.setTriggerMode(ReportTriggerMode.MANUAL.name());

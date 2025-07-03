@@ -5,7 +5,7 @@ import Login from "./Login.vue";
 import Ajax from "../common/js/ajax";
 import i18n from "../i18n/i18n";
 // 引用静态资源，去掉打包将缺失图片
-import infoImg from "../assets/info.png";
+import infoImg from "../assets/logo-AEKE.png";
 import loginLogo from "../assets/logo-dark-MeterSphere.svg";
 import logoHeader from "../assets/logo-light-MeterSphere.svg";
 

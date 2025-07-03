@@ -4,9 +4,8 @@
       <el-col :span="12">
         <div class="content">
           <div class="title">
-            <div class="title-img">
-              <img :src="'/display/file/loginLogo'" alt="">
-            </div>
+          </div>
+          <div>
             <div class="welcome">
               <span>{{ loginTitle }}</span>
             </div>
@@ -48,7 +47,7 @@
 
       <el-col :span="12">
         <div class="content">
-          <img class="login-image" :src="'/display/file/loginImage'" alt="">
+          <img class="login-image" src="../assets/logo-AEKE.png" alt="">
         </div>
       </el-col>
 
@@ -268,6 +267,11 @@ export default {
   display: flex;
 }
 
+.title {
+  height: 200px;
+} 
+
+
 .title img {
   width: 293px;
   max-height: 60px;
@@ -289,7 +293,7 @@ export default {
 .welcome {
   margin-top: 12px;
   margin-bottom: 75px;
-  font-size: 14px;
+  font-size: 50px;
   color: var(--primary_color);
   line-height: 14px;
   text-align: center;

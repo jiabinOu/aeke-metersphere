@@ -1235,11 +1235,11 @@ export default {
 }
 
 .ms-max-tree >>> .el-tree-node__expand-icon {
-  color: #7C3985;
+  color: #06dc9c;
 }
 
 .ms-max-tree >>> .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
-  color: #7C3985;
+  color: #06dc9c;
   /* content: "\e722";*/
   padding: 0;
   content: "";
@@ -1287,7 +1287,7 @@ export default {
 }
 
 .custom-node_e {
-  color: #7C3985;
+  color: #06dc9c;
   font-size: 20px;
 }
 
